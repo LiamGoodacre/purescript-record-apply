@@ -1,8 +1,12 @@
 module Data.Record.Apply where
 
 import Type.Row
+
 import Data.Symbol (class IsSymbol, SProxy(..))
-import Data.Record (get, insert, delete)
+import Prim.RowList (class RowToList, kind RowList, Nil, Cons)
+import Record (get, insert, delete)
+import Type.RowList (class ListToRow, RLProxy(..))
+import Prim.Row as Row
 
 class ApplyRecord
   (io :: # Type)
@@ -63,12 +67,12 @@ rltail :: forall k v t. RLProxy (Cons k v t) -> RLProxy t
 rltail _ = RLProxy
 
 instance applyRowListCons ::
-  ( RowCons k (i -> o) tior ior
-  , RowCons k i tir ir
-  , RowCons k o tor or
-  , RowLacks k tior
-  , RowLacks k tir
-  , RowLacks k tor
+  ( Row.Cons k (i -> o) tior ior
+  , Row.Cons k i tir ir
+  , Row.Cons k o tor or
+  , Row.Lacks k tior
+  , Row.Lacks k tir
+  , Row.Lacks k tor
   , ListToRow tio tior
   , ListToRow ti tir
   , ListToRow to tor

@@ -1,9 +1,10 @@
-module Main where
+module Test.Main where
 
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Console (CONSOLE, logShow)
-import Prelude (Unit, show, (>))
+import Prelude
+
 import Data.Record.Apply (applyRecord)
+import Effect (Effect)
+import Effect.Class.Console (log, logShow)
 
 -- setup
 
@@ -31,7 +32,6 @@ eg2 :: forall t0 t1 t2.
   { a :: String, b :: Boolean }
 eg2 r = applyRecord r.io r.i
 
-
-main :: forall e. Eff (console :: CONSOLE | e) Unit
+main :: Effect Unit
 main = do
   logShow ((applyRecord foo {a: true, b: 1}).a)
